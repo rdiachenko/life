@@ -10,6 +10,9 @@ object LifeApp extends SimpleSwingApplication {
   def top = new MainFrame {
     title = "Life"
 
+    val lifeActor = new LifeActor(new LifeModel(100, 70))
+    val lifePanel = new LifePanel(lifeActor)
+    
     val toolBar = new BoxPanel(Orientation.Horizontal) {
       val stateBtn = new Button {
         text = "Start life"
@@ -23,8 +26,6 @@ object LifeApp extends SimpleSwingApplication {
         labels = Map(1 -> new Label("1"), 200 -> new Label("200"))
         paintLabels = true
         border = Swing.EmptyBorder(0, 10, 0, 15)
-       // paintTicks = true
-      //  paintTrack = true
       }
 
       val clearBtn = new Button {
@@ -40,12 +41,10 @@ object LifeApp extends SimpleSwingApplication {
       listenTo(stateBtn, slider, clearBtn)
       reactions += {
         case ButtonClicked(`stateBtn`) => println("stateBtn")
-        case ButtonClicked(`clearBtn`) => println("clearBtn")
+        case ButtonClicked(`clearBtn`) => lifePanel clear
         case ValueChanged(`slider`) => println("slider: " + slider.value)
       }
-    }
-    
-    val lifePanel = new LifePanel(new LifeModel(100, 70))
+    } 
 
     contents = new BoxPanel(Orientation.Vertical) {
       contents += toolBar

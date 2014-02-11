@@ -2,10 +2,12 @@ package com.github.rd.life
 
 import scala.swing.Panel
 import scala.swing.event.{MouseDragged, MousePressed, MouseReleased, MouseEvent}
+import scala.actors.Actor
+import scala.actors.Actor._
 
 import java.awt.{Color, Dimension, Graphics2D}
 
-class LifePanel(model: LifeModel) extends Panel {
+class LifePanel(lifeActor: Actor) extends Panel {
 
   private val cellSize = 6
   private val cellGap = 1
@@ -17,7 +19,7 @@ class LifePanel(model: LifeModel) extends Panel {
   private var leftBtnPressed = false
 
   override def background = Color.BLACK
-  
+
   listenTo(mouse.clicks, mouse.moves)
   
   reactions += {
@@ -41,17 +43,20 @@ class LifePanel(model: LifeModel) extends Panel {
   }
 
   override def preferredSize: Dimension = {
+    val (height, width) = getDimension()
     new Dimension(
-      (cellSize + cellGap) * model.getWidth + cellGap,
-      (cellSize + cellGap) * model.getHeight + cellGap
+      (cellSize + cellGap) * width + cellGap,
+      (cellSize + cellGap) * height + cellGap
     )
   }
 
   override def paint(g: Graphics2D) {
     super.paint(g)
-    for (x <- 0 until model.getHeight) {
-      for (y <- 0 until model.getWidth) {
-        val live = model.getCell(x, y)
+    val (height, width) = getDimension()
+
+    for (x <- 0 until height) {
+      for (y <- 0 until width) {
+        val live = getCell(x, y)
         g.setColor(
           if (live == 1) liveCellColor else emptyCellColor
         )
@@ -65,17 +70,46 @@ class LifePanel(model: LifeModel) extends Panel {
     }
   }
 
+  def clear() {
+    lifeActor ! "CLEAR"
+    repaint
+  }
+
+  private def getDimension(): (Int, Int) = {
+    lifeActor ! FieldDimension(Actor.self)
+    val dimension = Actor.self.receive {
+      case FieldDimensionRes(height, width) => FieldDimensionRes(height, width)
+    }
+    dimension match {
+      case FieldDimensionRes(height, width) => (height, width)
+      case _ => (100, 70)
+    }
+  }
+
+  private def setCell(x: Int, y: Int, value: Byte) {
+    lifeActor ! CellSetter(x, y, value)
+  }
+
+  private def getCell(x: Int, y: Int): Byte = {
+    lifeActor ! CellGetter(x, y, Actor.self)
+    val value = Actor.self.receive {
+      case receivedValue: Byte => receivedValue
+    }
+    value
+  }
+
   private def processCell(e: MouseEvent) {
     val x = e.point.x / (cellSize + cellGap)
     val y = e.point.y / (cellSize + cellGap)
+    val (height, width) = getDimension()
 
-    if (x >= 0 && x < model.getHeight && y >= 0 && y < model.getWidth) {
+    if (x >= 0 && x < height && y >= 0 && y < width) {
       if (rightBtnPressed) {
-        model.setCell(x, y, 0)
+        setCell(x, y, 0)
         repaint
       }
       if (leftBtnPressed) {
-        model.setCell(x, y, 1)
+        setCell(x, y, 1)
         repaint
       }
     }

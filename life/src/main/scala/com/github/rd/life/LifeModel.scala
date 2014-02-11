@@ -43,8 +43,8 @@ class LifeModel(height: Int, width: Int) {
     Array(1, 1)
   )
   
-  val getHeight = height
-  val getWidth = width
+  def getHeight() = height
+  def getWidth() = width
 
   def setCell(x: Int, y: Int, value: Byte) {
     mainField(x)(y) = value
@@ -65,7 +65,7 @@ class LifeModel(height: Int, width: Int) {
     backField = Array.fill[Byte](height, width)(0)
   }
 
-  def clear {
+  def clear() {
     mainField = Array.fill[Byte](height, width)(0)
     backField = Array.fill[Byte](height, width)(0)
   }
