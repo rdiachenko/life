@@ -52,7 +52,7 @@ class LifeModel(height: Int, width: Int) {
 
   def getCell(x: Int, y: Int): Byte = mainField(x)(y)
 
-  def simulate {
+  def simulate() {
     for (x <- 0 until height) {
       for (y <- 0 until width) {
         val neighborsCount = countNeighbors(x, y)

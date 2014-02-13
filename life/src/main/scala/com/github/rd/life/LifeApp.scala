@@ -40,7 +40,14 @@ object LifeApp extends SimpleSwingApplication {
 
       listenTo(stateBtn, slider, clearBtn)
       reactions += {
-        case ButtonClicked(`stateBtn`) => println("stateBtn")
+        case ButtonClicked(`stateBtn`) =>
+          if (lifePanel.isSimulation) {
+            stateBtn.text = "StartLife"
+            lifePanel stopSimulation
+          } else {
+            stateBtn.text = "StopLife"
+            lifePanel startSimulation
+          }
         case ButtonClicked(`clearBtn`) => lifePanel clear
         case ValueChanged(`slider`) => println("slider: " + slider.value)
       }

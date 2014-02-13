@@ -4,6 +4,9 @@ import scala.swing.Panel
 import scala.swing.event.{MouseDragged, MousePressed, MouseReleased, MouseEvent}
 import scala.actors.Actor
 import scala.actors.Actor._
+import scala.concurrent.Future
+import scala.concurrent.future
+import scala.concurrent.ExecutionContext.Implicits._
 
 import java.awt.{Color, Dimension, Graphics2D}
 
@@ -18,7 +21,11 @@ class LifePanel(lifeActor: Actor) extends Panel {
   private var rightBtnPressed = false
   private var leftBtnPressed = false
 
+  private var simulation = false
+
   override def background = Color.BLACK
+
+  def isSimulation() = simulation
 
   listenTo(mouse.clicks, mouse.moves)
   
@@ -71,8 +78,29 @@ class LifePanel(lifeActor: Actor) extends Panel {
   }
 
   def clear() {
-    lifeActor ! "CLEAR"
+    lifeActor ! Cmd("CLEAR", helper)
     repaint
+  }
+
+  val helper = actor {
+    loop {
+      react { 
+          case "ON" =>
+            repaint
+          case "OFF" =>
+            println("OFF start case")
+      }
+    }
+  }
+
+  def startSimulation() {
+    simulation = true
+    lifeActor ! Cmd("START", helper)
+  }
+
+  def stopSimulation() {
+    simulation = false
+    lifeActor ! Cmd("STOP", helper)
   }
 
   private def getDimension(): (Int, Int) = {
