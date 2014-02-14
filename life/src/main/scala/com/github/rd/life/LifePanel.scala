@@ -25,6 +25,15 @@ class LifePanel(lifeActor: Actor) extends Panel {
 
   override def background = Color.BLACK
 
+  val helper = actor {
+    loop {
+      react { 
+          case "ON" =>
+            repaint
+      }
+    }
+  }
+
   def isSimulation() = simulation
 
   listenTo(mouse.clicks, mouse.moves)
@@ -82,17 +91,6 @@ class LifePanel(lifeActor: Actor) extends Panel {
     repaint
   }
 
-  val helper = actor {
-    loop {
-      react { 
-          case "ON" =>
-            repaint
-          case "OFF" =>
-            println("OFF start case")
-      }
-    }
-  }
-
   def startSimulation() {
     simulation = true
     lifeActor ! Cmd("START", helper)
@@ -101,6 +99,10 @@ class LifePanel(lifeActor: Actor) extends Panel {
   def stopSimulation() {
     simulation = false
     lifeActor ! Cmd("STOP", helper)
+  }
+
+  def updateDelay(time: Int) {
+    lifeActor ! DelayTime(time)
   }
 
   private def getDimension(): (Int, Int) = {

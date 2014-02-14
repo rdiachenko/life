@@ -22,7 +22,7 @@ object LifeApp extends SimpleSwingApplication {
         tooltip = "Life speed"
         min = 1
         max = 200
-        value = 50
+        value = 100
         labels = Map(1 -> new Label("1"), 200 -> new Label("200"))
         paintLabels = true
         border = Swing.EmptyBorder(0, 10, 0, 15)
@@ -49,7 +49,7 @@ object LifeApp extends SimpleSwingApplication {
             lifePanel startSimulation
           }
         case ButtonClicked(`clearBtn`) => lifePanel clear
-        case ValueChanged(`slider`) => println("slider: " + slider.value)
+        case ValueChanged(`slider`) => lifePanel updateDelay(slider.value)
       }
     } 
 

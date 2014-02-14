@@ -11,10 +11,13 @@ case class FieldDimensionRes(
   width: Int
 )
 case class Cmd(cmdCode: String, respondTo: Actor)
+case class DelayTime(time: Int)
 
 class LifeActor(model: LifeModel) extends Actor {
 
   private var simulation = false
+
+  private var sleepTime = 100
 
   start()
 
@@ -33,7 +36,7 @@ class LifeActor(model: LifeModel) extends Actor {
           if (simulation) {
             model.simulate()
             actor ! "ON"
-            sleep(100, actor)
+            sleep(sleepTime, actor)
           }
         case Cmd("STOP", actor) =>
           simulation = false
@@ -42,6 +45,8 @@ class LifeActor(model: LifeModel) extends Actor {
           simulation = true
           actor ! "ON"
           self ! Cmd("SIMULATE", actor)
+        case DelayTime(time) =>
+          sleepTime = time
       }
     }
   }
