@@ -9,10 +9,10 @@ The project represents different variations of [Conway's Game of Life](http://en
 ### How to run
 
 ```
-# install sbt and its dependences
+# install sbt and its dependencies
 $ sudo yum install sbt
 
-# compile and run Life game on scala
+# compile and run the Game of Life
 $ cd scala-life
 $ sbt clean compile run
 ```
