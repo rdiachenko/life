@@ -4,7 +4,7 @@ The project represents different variations of [Conway's Game of Life](http://en
 
 ## Scala-Life
 
-![](https://github.com/rdiachenko/life/tree/master/scala-life/screenshots/scala-life.png)
+![](https://raw.githubusercontent.com/rdiachenko/life/master/scala-life/screenshots/scala-life.png)
 
 ### How to run
 
