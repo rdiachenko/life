@@ -8,11 +8,22 @@ class LifeModel
 		{
 			n = width;
 			m = height;
-			frontField = new int[n * m];
-			backField = new int[n * m];
+			frontField = new int*[n];
+			backField = new int*[n];
+
+			for (int i = 0; i != n; ++i)
+			{
+				frontField[i] = new int[m];
+				backField[i] = new int[m];
+			}
 		}
 		~LifeModel()
 		{
+			for (int i = 0; i != n; ++i)
+			{
+				delete[] frontField[i];
+				delete[] backField[i];
+			}
 			delete[] frontField;
 			delete[] backField;
 		}
@@ -25,8 +36,8 @@ class LifeModel
 	private:
 		int n;
 		int m;
-		int* frontField;
-		int* backField;
+		int** frontField;
+		int** backField;
 		void setCell(int, int, int);
 		int countNeighbours(int, int);
 		void swapFields();
