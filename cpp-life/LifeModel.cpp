@@ -45,8 +45,8 @@ void LifeModel::simulate()
 
 int LifeModel::countNeighbours(int row, int col)
 {
-	static const int offsetsCount = 8;
-	static const int offsets[offsetsCount][2] = 
+	const int offsetsCount = 8;
+	const int offsets[offsetsCount][2] = 
 	{
 		{-1, -1},
 		{-1, 0},

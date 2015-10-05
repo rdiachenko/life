@@ -1,0 +1,8 @@
+SOURCES = main.cpp LifeModel.cpp
+CC = g++
+COMPILER_FLAGS =
+LINKER_FLAGS = -lSDL2
+EXECUTABLE = life
+
+all :
+	$(CC) $(SOURCES) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXECUTABLE)
