@@ -1,4 +1,4 @@
-SOURCES = main.cpp LifeModel.cpp
+SOURCES = main.cpp LifeModel.cpp LifeApp.cpp
 CC = g++
 COMPILER_FLAGS =
 LINKER_FLAGS = -lSDL2
