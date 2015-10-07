@@ -16,3 +16,5 @@ $ sudo yum install sbt
 $ cd scala-life
 $ sbt clean compile run
 ```
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/kSKe7BtLS28" frameborder="0" allowfullscreen></iframe>
