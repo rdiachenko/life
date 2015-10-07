@@ -3,12 +3,27 @@
 
 #include <SDL2/SDL.h>
 #include "LifeModel.h"
+#include "Constants.h"
 
 class LifeApp
 {
 	public:
-		LifeApp();
-		~LifeApp();
+		LifeApp()
+		{
+			window = NULL;
+			renderer = NULL;
+			running = true;
+			pause = false;
+			cellSetupMode = false;
+			cellEraseMode = false;
+			lifeModel = new LifeModel(SCREEN_WIDTH / CELL_SIZE, SCREEN_HEIGHT / CELL_SIZE);
+		}
+
+		~LifeApp()
+		{
+			    delete lifeModel;
+		}
+
 		int execute();
 
 	private:

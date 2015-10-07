@@ -4,38 +4,6 @@
 using std::cerr;
 using std::endl;
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-const int CELL_SIZE = 5;
-
-const Uint8 BLACK_R = 0x00;
-const Uint8 BLACK_G = 0x00;
-const Uint8 BLACK_B = 0x00;
-
-const Uint8 WHITE_R = 0xFF;
-const Uint8 WHITE_G = 0xFF;
-const Uint8 WHITE_B = 0xFF;
-
-const Uint8 OPAQUE = 0xFF;
-
-const Uint32 DELAY = 100; // ms
-
-LifeApp::LifeApp()
-{
-	window = NULL;
-	renderer = NULL;
-	running = true;
-	pause = false;
-	cellSetupMode = false;
-	cellEraseMode = false;
-	lifeModel = new LifeModel(SCREEN_WIDTH / CELL_SIZE, SCREEN_HEIGHT / CELL_SIZE);
-}
-
-LifeApp::~LifeApp()
-{
-	delete lifeModel;
-}
-
 int LifeApp::execute()
 {
 	if (!init())
@@ -51,7 +19,7 @@ int LifeApp::execute()
 		{
 			onEvent(&event);
 		}
-		SDL_SetRenderDrawColor(renderer, WHITE_R, WHITE_G, WHITE_B, OPAQUE);
+		SDL_SetRenderDrawColor(renderer, BACKGROUND_COLOR_R, BACKGROUND_COLOR_G, BACKGROUND_COLOR_B, BACKGROUND_COLOR_OPAQUE);
 		SDL_RenderClear(renderer);
 		drawGrid();
 		fillCells();
@@ -96,7 +64,7 @@ bool LifeApp::init()
 			}
 			else
 			{
-				SDL_SetRenderDrawColor(renderer, WHITE_R, WHITE_G, WHITE_B, OPAQUE);
+				SDL_SetRenderDrawColor(renderer, BACKGROUND_COLOR_R, BACKGROUND_COLOR_G, BACKGROUND_COLOR_B, BACKGROUND_COLOR_OPAQUE);
 				SDL_RenderPresent(renderer);
 			}
 		}
@@ -179,7 +147,7 @@ void LifeApp::cleanup()
 
 void LifeApp::drawGrid()
 {
-	SDL_SetRenderDrawColor(renderer, BLACK_R, BLACK_G, BLACK_B, OPAQUE);
+	SDL_SetRenderDrawColor(renderer, LINE_COLOR_R, LINE_COLOR_G, LINE_COLOR_B, LINE_COLOR_OPAQUE);
 	drawHorizontalLines();
 	drawVerticalLines();
 }
@@ -212,8 +180,8 @@ void LifeApp::fillCells()
 
 			if (lifeModel->getCell(row, col))
 			{
-				SDL_Rect cell = {i, j, CELL_SIZE, CELL_SIZE};
-				SDL_SetRenderDrawColor(renderer, BLACK_R, BLACK_G, BLACK_B, OPAQUE);
+				SDL_Rect cell = {i, j, CELL_SIZE - 1, CELL_SIZE - 1};
+				SDL_SetRenderDrawColor(renderer, CELL_COLOR_R, CELL_COLOR_G, CELL_COLOR_B, CELL_COLOR_OPAQUE);
 				SDL_RenderFillRect(renderer, &cell);
 			}
 		}
