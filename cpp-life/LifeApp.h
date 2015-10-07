@@ -9,17 +9,20 @@ class LifeApp
 	public:
 		LifeApp();
 		~LifeApp();
-		int onExecute();
+		int execute();
 
 	private:
 		bool running;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		LifeModel* lifeModel;
-		bool onInit();
+		bool pause;
+		bool cellSetupMode;
+		bool cellEraseMode;
+
+		bool init();
 		void onEvent(SDL_Event*);
-		void onLoop();
-		void onCleanup();
+		void cleanup();
 		void drawGrid();
 		void drawHorizontalLines();
 		void drawVerticalLines();

@@ -4,5 +4,5 @@
 int main(int argc, char** argv)
 {
 	LifeApp life;
-	return life.onExecute();
+	return life.execute();
 }

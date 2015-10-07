@@ -6,7 +6,7 @@ using std::endl;
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
-const int CELL_SIZE = 10;
+const int CELL_SIZE = 5;
 
 const Uint8 BLACK_R = 0x00;
 const Uint8 BLACK_G = 0x00;
@@ -18,12 +18,17 @@ const Uint8 WHITE_B = 0xFF;
 
 const Uint8 OPAQUE = 0xFF;
 
+const Uint32 DELAY = 100; // ms
+
 LifeApp::LifeApp()
 {
 	window = NULL;
 	renderer = NULL;
 	running = true;
-	lifeModel = new LifeModel(SCREEN_WIDTH, SCREEN_HEIGHT);
+	pause = false;
+	cellSetupMode = false;
+	cellEraseMode = false;
+	lifeModel = new LifeModel(SCREEN_WIDTH / CELL_SIZE, SCREEN_HEIGHT / CELL_SIZE);
 }
 
 LifeApp::~LifeApp()
@@ -31,9 +36,9 @@ LifeApp::~LifeApp()
 	delete lifeModel;
 }
 
-int LifeApp::onExecute()
+int LifeApp::execute()
 {
-	if (!onInit())
+	if (!init())
 	{
 		cerr << "Failed to initialize" << endl;
 		return -1;
@@ -49,15 +54,20 @@ int LifeApp::onExecute()
 		SDL_SetRenderDrawColor(renderer, WHITE_R, WHITE_G, WHITE_B, OPAQUE);
 		SDL_RenderClear(renderer);
 		drawGrid();
-		onLoop();
 		fillCells();
 		SDL_RenderPresent(renderer);
+
+		if (!pause)
+		{
+			lifeModel->simulate();
+			SDL_Delay(DELAY);
+		}
 	}
-	onCleanup();
+	cleanup();
 	return 0;
 }
 
-bool LifeApp::onInit()
+bool LifeApp::init()
 {
 	bool success = true;
 
@@ -87,6 +97,7 @@ bool LifeApp::onInit()
 			else
 			{
 				SDL_SetRenderDrawColor(renderer, WHITE_R, WHITE_G, WHITE_B, OPAQUE);
+				SDL_RenderPresent(renderer);
 			}
 		}
 	}
@@ -99,13 +110,65 @@ void LifeApp::onEvent(SDL_Event* event)
 	{
 		running = false;
 	}
+	else if (event->type == SDL_KEYDOWN)
+	{
+		switch((event->key).keysym.sym)
+		{
+			case SDLK_ESCAPE:
+				lifeModel->clear();
+				break;
+			case SDLK_SPACE:
+				pause = !pause;
+				break;
+		}
+	}
+	else if (event->type == SDL_MOUSEBUTTONDOWN)
+	{
+		int row = (event->button).x / CELL_SIZE;
+		int col = (event->button).y / CELL_SIZE;
+
+		if ((event->button).button == SDL_BUTTON_LEFT)
+		{
+			cellSetupMode = true;
+			lifeModel->setCellOn(row, col);
+		}
+		else if ((event->button).button == SDL_BUTTON_RIGHT)
+		{
+			cellEraseMode = true;
+			lifeModel->setCellOff(row, col);
+		}
+	}
+	else if (event->type == SDL_MOUSEBUTTONUP)
+	{
+		int row = (event->button).x / CELL_SIZE;
+		int col = (event->button).y / CELL_SIZE;
+
+		if ((event->button).button == SDL_BUTTON_LEFT)
+		{
+			cellSetupMode = false;
+		}
+		else if ((event->button).button == SDL_BUTTON_RIGHT)
+		{
+			cellEraseMode = false;
+		}
+	}
+	else if (event->type == SDL_MOUSEMOTION)
+	{
+		int row = (event->button).x / CELL_SIZE;
+		int col = (event->button).y / CELL_SIZE;
+
+		if (cellSetupMode)
+		{
+			lifeModel->setCellOn(row, col);
+		}
+		else if (cellEraseMode)
+		{
+			lifeModel->setCellOff(row, col);
+		}
+	}
 }
 
-void LifeApp::onLoop()
-{
-}
-
-void LifeApp::onCleanup()
+void LifeApp::cleanup()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
