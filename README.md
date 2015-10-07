@@ -2,6 +2,30 @@
 
 The project represents different variations of [Conway's Game of Life](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
+## C++ Life
+
+Youtube video is [here](https://youtu.be/kSKe7BtLS28)
+
+![](https://raw.githubusercontent.com/rdiachenko/life/master/cpp-life/screenshots/cpp-life.png)
+
+### How to run
+
+```
+$ cd cpp-life
+$ make
+
+# see help
+$ ./life -h
+Usage: 
+<MOUSE_LEFT_CLICK> - turn cell on
+<MOUSE_RIGHT_CLICK> - turn cell off
+<SPACE> - pause/resume
+<ESC> - clear field
+
+$ ./life
+```
+To play with the game parameters go to [cpp-life/Constants.h](https://github.com/rdiachenko/life/blob/master/cpp-life/Constants.h).
+
 ## Scala-Life
 
 ![](https://raw.githubusercontent.com/rdiachenko/life/master/scala-life/screenshots/scala-life.png)
@@ -17,4 +41,3 @@ $ cd scala-life
 $ sbt clean compile run
 ```
 
-<iframe width="420" height="315" src="https://www.youtube.com/embed/kSKe7BtLS28" frameborder="0" allowfullscreen></iframe>
