@@ -4,7 +4,7 @@ The project represents different variations of [Conway's Game of Life](http://en
 
 ## C++ Life
 
-Youtube video is [here](https://youtu.be/kSKe7BtLS28) and [here (with interesting effect](https://youtu.be/Yq74FPuz4P0)
+Youtube video is [here](https://youtu.be/kSKe7BtLS28) and [here (with interesting effect)](https://youtu.be/Yq74FPuz4P0)
 
 ![](https://raw.githubusercontent.com/rdiachenko/life/master/cpp-life/screenshots/cpp-life2.png)
 
