@@ -180,7 +180,7 @@ void LifeApp::fillCells()
 
 			if (lifeModel->getCell(row, col))
 			{
-				SDL_Rect cell = {i, j, CELL_SIZE - 1, CELL_SIZE - 1};
+				SDL_Rect cell = {i + 1, j + 1, CELL_SIZE - 1, CELL_SIZE - 1};
 				SDL_SetRenderDrawColor(renderer, CELL_COLOR_R, CELL_COLOR_G, CELL_COLOR_B, CELL_COLOR_OPAQUE);
 				SDL_RenderFillRect(renderer, &cell);
 			}
