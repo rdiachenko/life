@@ -38,6 +38,9 @@ class LifeModel
 		int m;
 		int** frontField;
 		int** backField;
+
+		LifeModel(const LifeModel&);
+		LifeModel& operator=(const LifeModel&);
 		void setCell(int, int, int);
 		int countNeighbours(int, int);
 		void swapFields();

@@ -35,6 +35,8 @@ class LifeApp
 		bool cellSetupMode;
 		bool cellEraseMode;
 
+		LifeApp(const LifeApp&);
+		LifeApp& operator=(const LifeApp&);
 		bool init();
 		void onEvent(SDL_Event*);
 		void cleanup();
