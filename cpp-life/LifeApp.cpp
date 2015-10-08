@@ -170,6 +170,8 @@ void LifeApp::drawVerticalLines()
 
 void LifeApp::fillCells()
 {
+	SDL_SetRenderDrawColor(renderer, CELL_COLOR_R, CELL_COLOR_G, CELL_COLOR_B, CELL_COLOR_OPAQUE);
+
 	for (int i = 0; i < SCREEN_WIDTH; i += CELL_SIZE)
 	{
 		int row = i / CELL_SIZE;
@@ -180,9 +182,13 @@ void LifeApp::fillCells()
 
 			if (lifeModel->getCell(row, col))
 			{
-				SDL_Rect cell = {i + 1, j + 1, CELL_SIZE - 1, CELL_SIZE - 1};
-				SDL_SetRenderDrawColor(renderer, CELL_COLOR_R, CELL_COLOR_G, CELL_COLOR_B, CELL_COLOR_OPAQUE);
-				SDL_RenderFillRect(renderer, &cell);
+				for (int pi = i + 1; pi < i + CELL_SIZE; ++pi)
+				{
+					for (int pj = j + 1; pj < j + CELL_SIZE; ++pj)
+					{
+						SDL_RenderDrawPoint(renderer, pi, pj);
+					}
+				}
 			}
 		}
 	}
