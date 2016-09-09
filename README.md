@@ -2,13 +2,16 @@
 
 The project represents different variations of [Conway's Game of Life](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
+* [C++ Life](https://github.com/rdiachenko/life#c-life)
+* [Scala-Life](https://github.com/rdiachenko/life#scala-life)
+
 ## C++ Life
 
 Youtube video is [here](https://youtu.be/kSKe7BtLS28) and [here (with interesting effect)](https://youtu.be/Yq74FPuz4P0)
 
-![](https://raw.githubusercontent.com/rdiachenko/life/master/cpp-life/screenshots/cpp-life2.png)
-
 ![](https://raw.githubusercontent.com/rdiachenko/life/master/cpp-life/screenshots/cpp-life.png)
+
+![](https://raw.githubusercontent.com/rdiachenko/life/master/cpp-life/screenshots/cpp-life2.png)
 
 ### How to run
 
